@@ -15,9 +15,15 @@ Ce projet est une application Node.js. Il permet de commenter, de supprimer un c
 
 ## Installation
 
-### Serveur
-
 1. Naviguez dans le répertoire du serveur :
-
-```bash
 cd server
+2. Installez les dépendances :
+npm install 
+3. Démarrez le serveur :
+node server.js
+
+### test 
+1. lancer les test :
+npm test
+1. Voir la Couverture des Tests :
+npm run coverage
