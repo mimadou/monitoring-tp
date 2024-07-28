@@ -1,16 +1,18 @@
 // tests/commentService.test.js
 
-const { getComments, addComment, editComment, deleteComment } = require('../src/commentService');
+const { getComments, addComment, editComment, deleteComment, resetComments } = require('../src/commentService');
 
 describe('Comment Service', () => {
   beforeEach(() => {
     // Réinitialiser les commentaires avant chaque test
-    comments = [{ id: 1, text: 'Ceci est un commentaire' }];
+    resetComments();
+    // Ajouter un commentaire initial pour les tests
+    addComment('Ceci est un commentaire');
   });
 
   it('should get comments', () => {
     const result = getComments();
-    expect(result).toEqual([{ id: 1, text: 'Ceci est un commentaire' }]);
+    expect(result).toEqual([{ id: expect.any(Number), text: 'Ceci est un commentaire' }]);
   });
 
   it('should add a comment', () => {
@@ -20,7 +22,10 @@ describe('Comment Service', () => {
   });
 
   it('should edit a comment', () => {
-    const editedComment = editComment(1, 'Commentaire modifié');
+    // Ajouter un commentaire pour s'assurer qu'il peut être modifié
+    const comment = addComment('Commentaire à modifier');
+    const editedComment = editComment(comment.id, 'Commentaire modifié');
+    expect(editedComment).not.toBeNull();
     expect(editedComment.text).toBe('Commentaire modifié');
     expect(getComments()).toContainEqual(editedComment);
   });
@@ -31,7 +36,8 @@ describe('Comment Service', () => {
   });
 
   it('should delete a comment', () => {
-    deleteComment(1);
-    expect(getComments()).toHaveLength(0);
+    const commentToDelete = addComment('Commentaire à supprimer');
+    deleteComment(commentToDelete.id);
+    expect(getComments()).toHaveLength(0); // La liste devrait être vide après suppression
   });
 });

@@ -25,4 +25,8 @@ function deleteComment(id) {
   comments = comments.filter(c => c.id !== id);
 }
 
-module.exports = { getComments, addComment, editComment, deleteComment };
+function resetComments() {
+  comments = [];
+}
+
+module.exports = { getComments, addComment, editComment, deleteComment, resetComments };
